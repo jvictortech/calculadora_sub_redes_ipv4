@@ -1,5 +1,7 @@
 # Calculadora de Sub-redes IPv4
 
+Acessivel em qualquer navegador: https://jvictortech.github.io/calculadora_sub_redes_ipv4
+
 Ferramenta didática de Redes de Computadores e projeto de portfólio de **João Victor Pinheiro da Silva**, professor de Informática no **IFPA – Campus Altamira**.
 
 ## Execução local
