@@ -27,3 +27,14 @@ test('máscaras, wildcard e binário para todos os prefixos', () => {
 test('rejeita entradas inválidas', () => {
   for (const input of ['256.1.1.1/24', '256.1.1.1', '192.168.1/24', '192.168.1.1/33', '', '1.2.3.4/-1', '1.2.3.4', '1.2.3.4/1.5']) assert.throws(() => calc(input));
 });
+test('exemplos didáticos e diagnóstico de entradas incompletas', () => {
+  assert.equal(calc('192.168.1.10/24').hosts, 254);
+  assert.equal(calc('192.0.2.0/31').first, '192.0.2.0');
+  assert.equal(calc('192.0.2.10/32').first, '192.0.2.10');
+  assert.equal(calc('192.168.10.130/26').networkBinary, '11000000.10101000.00001010.10000000');
+  for (const [input, message] of [
+    ['', /Digite/], ['192.168.1/24', /incompleto/], ['192..1.1/24', /incompleto/],
+    ['256.1.1.1/24', /octeto/], ['1.2.3.4', /prefixo/], ['1.2.3.4/', /prefixo/],
+    ['1.2.3.4/33', /entre/], ['1.2.3.4/abc', /inteiro/], ['1.2.3.4/24/1', /única barra/]
+  ]) assert.throws(() => calc(input), message);
+});

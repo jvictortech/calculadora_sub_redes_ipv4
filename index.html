@@ -29,12 +29,35 @@
         </div>
       </form>
       <p id="status" role="status" aria-live="polite"></p>
+      <section class="examples" aria-labelledby="examples-title">
+        <h3 id="examples-title">Experimente um exemplo</h3>
+        <div class="actions">
+          <button type="button" class="secondary" data-example="192.168.1.10/24">192.168.1.10/24</button>
+          <button type="button" class="secondary" data-example="192.168.10.130/26">192.168.10.130/26</button>
+          <button type="button" class="secondary" data-example="10.0.0.1/30">10.0.0.1/30</button>
+          <button type="button" class="secondary" data-example="192.0.2.0/31">192.0.2.0/31</button>
+          <button type="button" class="secondary" data-example="192.0.2.10/32">192.0.2.10/32</button>
+        </div>
+      </section>
     </section>
     <section id="result" class="panel" aria-labelledby="result-title" hidden>
       <h2 id="result-title" tabindex="-1">Resultado do cálculo</h2>
       <p id="note" class="note"></p>
       <dl id="details"></dl>
-      <div class="binary"><h3>Representação binária</h3><p>Endereço IPv4</p><code id="ip-binary"></code><p>Máscara de sub-rede</p><code id="mask-binary"></code></div>
+      <div class="binary">
+        <h3>Representação binária</h3>
+        <p class="legend"><span class="network-bit">Rede — R</span> <span class="host-bit">Host — H</span></p>
+        <p>Endereço IPv4</p><code id="ip-binary"></code>
+        <p>Máscara de sub-rede</p><code id="mask-binary"></code>
+        <p>Endereço da rede (IP AND máscara)</p><code id="network-binary"></code>
+      </div>
+      <section class="explanation" aria-labelledby="explanation-title">
+        <h3 id="explanation-title">Entenda o cálculo</h3>
+        <p>Um IPv4 tem 32 bits. O prefixo CIDR indica quantos bits pertencem à rede; os demais identificam endereços dentro desse bloco.</p>
+        <p id="bit-summary"></p>
+        <p>Na máscara, os bits de rede são 1 e os bits de host são 0. A operação lógica AND entre IP e máscara preserva os bits de rede e zera os bits de host, obtendo o endereço da rede.</p>
+        <p id="calculation-summary"></p>
+      </section>
     </section>
   </main>
   <footer>Desenvolvido por João Victor Pinheiro da Silva — ferramenta didática de Redes de Computadores</footer>
