@@ -32,4 +32,14 @@ dt { color: #4d6058; } dd { font-weight: 650; }
 code { font-size: clamp(.68rem, 2.6vw, 1.08rem); overflow-wrap: anywhere; }
 footer { border-top: 1px solid #d4dfd8; padding: 24px; text-align: center; font-size: .85rem; color: #4d6058; line-height: 1.6; }
 [hidden] { display: none !important; }
+.examples { margin-top: 28px; border-top: 1px solid #d4dfd8; padding-top: 12px; }
+.examples button { font-size: .9rem; }
+.network-bit { background: #176b3a; color: #fff; }
+.host-bit { background: #fff0f0; color: #96212b; text-decoration: underline; text-underline-offset: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; }
+.legend span { padding: 6px 10px; border-radius: 4px; font-weight: 700; }
+.binary code { display: flex; align-items: center; flex-wrap: wrap; gap: 3px; line-height: 2; }
+.octet { display: inline-flex; white-space: nowrap; }
+.octet > span { padding: 0 2px; }
+.explanation { line-height: 1.7; margin-top: 28px; }
 @media (max-width: 540px) { main { padding: 32px 16px; } .panel { padding: 20px 16px; } dl { grid-template-columns: 1fr; } dt { border: 0; padding-bottom: 0; } dd { padding-top: 6px; } .actions button { flex: 1 1 auto; } }

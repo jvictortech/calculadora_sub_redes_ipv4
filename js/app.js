@@ -6,12 +6,23 @@ function toIPv4(value) {
 }
 
 function calculateIPv4(input) {
-  const match = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\/(\d{1,2})$/.exec(input.trim());
-  if (!match) throw new Error("Informe um IPv4 completo com prefixo, como 192.168.10.25/24.");
-  const octets = match.slice(1, 5).map(Number);
-  const prefix = Number(match[5]);
-  if (octets.some(octet => octet > 255)) throw new Error("Cada octeto do IPv4 deve estar entre 0 e 255.");
-  if (prefix > 32) throw new Error("O prefixo CIDR deve estar entre /0 e /32.");
+  const text = input.trim();
+  if (!text) throw new Error("Digite um endereço IPv4 e seu prefixo CIDR.");
+  const parts = text.split("/");
+  if (parts.length > 2) throw new Error("Use uma única barra entre o IPv4 e o prefixo CIDR.");
+  const octetTexts = parts[0].split(".");
+  if (octetTexts.length !== 4 || octetTexts.some(octet => octet === "")) {
+    throw new Error("IPv4 incompleto: informe quatro octetos, como 192.168.10.25.");
+  }
+  if (octetTexts.some(octet => !/^\d{1,3}$/.test(octet) || Number(octet) > 255)) {
+    throw new Error("Cada octeto do IPv4 deve ser um número inteiro de 0 a 255, com até três dígitos.");
+  }
+  if (parts.length < 2 || parts[1] === "") throw new Error("Informe o prefixo CIDR após a barra, como /24.");
+  if (!/^\d{1,2}$/.test(parts[1]) || Number(parts[1]) > 32) {
+    throw new Error("O prefixo CIDR deve ser um número inteiro entre /0 e /32.");
+  }
+  const octets = octetTexts.map(Number);
+  const prefix = Number(parts[1]);
   const ipNumber = octets.reduce((value, octet) => value * 256 + octet, 0);
   // Todos os inteiros IPv4 e 2^32 são exatos no tipo Number.
   const total = 2 ** (32 - prefix);
@@ -28,7 +39,7 @@ function calculateIPv4(input) {
     first: toIPv4(conventional ? network + 1 : network),
     last: toIPv4(conventional ? end - 1 : end), total,
     hosts: conventional ? total - 2 : total,
-    ipBinary: binary(ipNumber), maskBinary: binary(mask),
+    ipBinary: binary(ipNumber), maskBinary: binary(mask), networkBinary: binary(network),
     note: prefix === 31
       ? "Rede /31: usada em enlaces ponto a ponto. Os dois endereços são utilizáveis e não há endereço de broadcast."
       : prefix === 32
@@ -55,6 +66,32 @@ if (typeof document !== "undefined") {
   }
   input.addEventListener("input", clearResult);
   form.addEventListener("reset", () => { clearResult(); input.focus(); });
+  document.querySelectorAll("[data-example]").forEach(button => {
+    button.addEventListener("click", () => {
+      input.value = button.dataset.example;
+      form.requestSubmit();
+    });
+  });
+  function renderBits(id, value, prefix) {
+    const target = document.getElementById(id);
+    target.replaceChildren();
+    target.setAttribute("aria-label", `${value}. ${prefix} bits de rede e ${32 - prefix} bits de host.`);
+    value.split(".").forEach((octet, index) => {
+      const group = document.createElement("span");
+      group.className = "octet";
+      group.setAttribute("aria-hidden", "true");
+      [...octet].forEach((bit, offset) => {
+        const digit = document.createElement("span");
+        const isNetwork = index * 8 + offset < prefix;
+        digit.className = isNetwork ? "network-bit" : "host-bit";
+        digit.textContent = bit;
+        digit.title = `Bit ${index * 8 + offset + 1}: ${isNetwork ? "rede (R)" : "host (H)"}`;
+        group.append(digit);
+      });
+      target.append(group);
+      if (index < 3) target.append(document.createTextNode("."));
+    });
+  }
   form.addEventListener("submit", event => {
     event.preventDefault();
     clearResult();
@@ -77,8 +114,11 @@ if (typeof document !== "undefined") {
         details.append(dt, dd);
       }
       document.getElementById("note").textContent = data.note;
-      document.getElementById("ip-binary").textContent = data.ipBinary;
-      document.getElementById("mask-binary").textContent = data.maskBinary;
+      renderBits("ip-binary", data.ipBinary, data.prefix);
+      renderBits("mask-binary", data.maskBinary, data.prefix);
+      renderBits("network-binary", data.networkBinary, data.prefix);
+      document.getElementById("bit-summary").textContent = `/${data.prefix}: ${data.prefix} bits de rede e 32 − ${data.prefix} = ${32 - data.prefix} bits de host. Total: 2 elevado a ${32 - data.prefix} = ${data.total.toLocaleString("pt-BR")} endereços.`;
+      document.getElementById("calculation-summary").textContent = `${data.ip} AND ${data.mask} = ${data.network}. ${data.note}`;
       resultText = rows.map(row => row.join(": ")).join("\n") + `\nIP binário: ${data.ipBinary}\nMáscara binária: ${data.maskBinary}\n${data.note}`;
       result.hidden = false; copy.disabled = false;
       document.getElementById("result-title").focus();

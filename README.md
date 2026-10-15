@@ -25,8 +25,26 @@ tests/calculate.test.cjs  Verificação dos cálculos com Node.js
 
 Opcionalmente, com Node.js instalado, execute `node --test tests/calculate.test.cjs`. O uso da calculadora não exige Node.js. Confira também a navegação por teclado, os botões e a interface em telas de desktop e celular.
 
+Para a verificação da interface, use `node tests/browser-check.cjs` com Node.js 22+ e Chrome instalado. No Windows, o script usa o caminho padrão do Chrome; em outras instalações, defina `CHROME_PATH` com o caminho do executável. O teste abre o arquivo local, verifica exemplos, cores dos bits, foco após cálculo e erros, limpeza e ausência de rolagem horizontal em 1280, 390 e 320 pixels. Capturas e perfis de diagnóstico são salvos na pasta temporária do sistema. Não instala pacotes nem publica o site.
+
 A ferramenta calcula limites de blocos IPv4; não verifica atribuição, disponibilidade, roteabilidade nem políticas de endereços especiais. A cópia depende das permissões do navegador, com tentativa alternativa para arquivos locais.
 
-## Entregas
+## Exemplos didáticos
 
-Esta primeira entrega contém a calculadora funcional. Exemplos clicáveis e explicações visuais serão adicionados em um segundo PR, somente após confirmação do merge do primeiro. Hospedagem na Vercel será tratada em etapa posterior.
+Os botões de exemplo preenchem o campo e calculam imediatamente:
+
+| Entrada | Rede | Broadcast | Hosts utilizáveis |
+| --- | --- | --- | --- |
+| 192.168.1.10/24 | 192.168.1.0 | 192.168.1.255 | 254 |
+| 192.168.10.130/26 | 192.168.10.128 | 192.168.10.191 | 62 |
+| 10.0.0.1/30 | 10.0.0.0 | 10.0.0.3 | 2 |
+| 192.0.2.0/31 | 192.0.2.0 | Não se aplica | 2 |
+| 192.0.2.10/32 | 192.0.2.10 | Não se aplica | 1 |
+
+A seção **Entenda o cálculo** relaciona prefixo, bits de host, potência de dois e obtenção da rede por AND. A visualização destaca os bits de rede em verde e os de host em vermelho sublinhado, com legenda e descrição acessível. Em /0, todos os bits são de host; em /32, todos são de rede.
+
+## Validação e limitações
+
+Há mensagens específicas para campo vazio, IPv4 incompleto, octetos inválidos, prefixo ausente e prefixos fora de /0–/32. São aceitos somente IPv4 em formato decimal pontuado com CIDR inteiro; IPv6, VLSM e divisão em múltiplas sub-redes não são suportados. Zeros iniciais são interpretados como decimais e normalizados no resultado. A contagem é matemática: endereços especiais não são filtrados do intervalo, inclusive em /0.
+
+O projeto continua offline, sem dependências de execução. Não há configuração de hospedagem nesta entrega.
