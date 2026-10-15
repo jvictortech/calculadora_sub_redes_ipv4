@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de Sub-redes IPv4</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">REDES DE COMPUTADORES / IPv4</p>
+      <h1>Calculadora de<br>Sub-redes IPv4<span>.</span></h1>
+      <p>Explore endereços, máscaras e os limites de uma rede.</p>
+      <p class="author">João Victor Pinheiro da Silva · Professor de Informática<br>IFPA – Campus Altamira</p>
+    </header>
+    <section class="panel" aria-labelledby="input-title">
+      <h2 id="input-title">Configure sua rede</h2>
+      <form id="calculator" novalidate>
+        <label for="address">Endereço IPv4 e prefixo CIDR</label>
+        <p id="hint">Digite quatro octetos e um prefixo entre /0 e /32.</p>
+        <input id="address" name="address" type="text" placeholder="192.168.10.25/24" aria-describedby="hint error" autocomplete="off" spellcheck="false" required>
+        <p id="error" role="alert"></p>
+        <div class="actions">
+          <button type="submit">Calcular</button>
+          <button type="reset" class="secondary">Limpar</button>
+          <button id="copy" type="button" class="secondary" disabled>Copiar resultado</button>
+        </div>
+      </form>
+      <p id="status" role="status" aria-live="polite"></p>
+    </section>
+    <section id="result" class="panel" aria-labelledby="result-title" hidden>
+      <h2 id="result-title" tabindex="-1">Resultado do cálculo</h2>
+      <p id="note" class="note"></p>
+      <dl id="details"></dl>
+      <div class="binary"><h3>Representação binária</h3><p>Endereço IPv4</p><code id="ip-binary"></code><p>Máscara de sub-rede</p><code id="mask-binary"></code></div>
+    </section>
+  </main>
+  <footer>Desenvolvido por João Victor Pinheiro da Silva — ferramenta didática de Redes de Computadores</footer>
+</body>
+</html>
