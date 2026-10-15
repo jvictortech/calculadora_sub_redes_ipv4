@@ -1,0 +1,35 @@
+:root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #182c25; background: #fff; }
+* { box-sizing: border-box; }
+body { margin: 0; border-top: 6px solid #176b3a; }
+main { max-width: 1040px; margin: auto; padding: 56px 24px; }
+header { margin-bottom: 36px; }
+.eyebrow { color: #176b3a; font-size: .78rem; font-weight: 800; letter-spacing: .15em; }
+h1 { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1.08; letter-spacing: -.045em; margin: 18px 0; }
+h1 span { color: #b92832; }
+header > p { color: #4d6058; line-height: 1.6; }
+.author { font-size: .9rem; }
+.panel { border: 1px solid #d4dfd8; border-radius: 16px; padding: 28px; margin-top: 24px; box-shadow: 0 8px 32px #173d2308; }
+h2 { font-size: 1.3rem; margin: 0 0 24px; }
+label { display: block; font-weight: 700; }
+#hint { font-size: .9rem; color: #4d6058; }
+input { width: 100%; padding: 16px; border: 1px solid #73877c; border-radius: 8px; font: 1.1rem ui-monospace, monospace; }
+input[aria-invalid="true"] { border: 2px solid #ad202d; }
+:focus-visible { outline: 3px solid #176b3a; outline-offset: 4px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+button { border: 1px solid #176b3a; border-radius: 8px; padding: 12px 20px; background: #176b3a; color: white; font: inherit; font-weight: 650; cursor: pointer; }
+button:hover { background: #10552c; color: white; }
+button.secondary { background: white; color: #176b3a; }
+button.secondary:hover { background: #edf6ef; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+#error { color: #ad202d; font-weight: 600; min-height: 1.4em; }
+#status { color: #176b3a; margin-bottom: 0; }
+.note { background: #edf6ef; border-left: 4px solid #176b3a; padding: 16px; line-height: 1.6; }
+dl { display: grid; grid-template-columns: 1fr 1fr; margin: 24px 0; }
+dt, dd { margin: 0; padding: 14px 8px; border-bottom: 1px solid #e1e8e3; overflow-wrap: anywhere; }
+dt { color: #4d6058; } dd { font-weight: 650; }
+.binary { background: #f5f8f6; padding: 20px; border-radius: 8px; }
+.binary p { font-size: .85rem; color: #4d6058; }
+code { font-size: clamp(.68rem, 2.6vw, 1.08rem); overflow-wrap: anywhere; }
+footer { border-top: 1px solid #d4dfd8; padding: 24px; text-align: center; font-size: .85rem; color: #4d6058; line-height: 1.6; }
+[hidden] { display: none !important; }
+@media (max-width: 540px) { main { padding: 32px 16px; } .panel { padding: 20px 16px; } dl { grid-template-columns: 1fr; } dt { border: 0; padding-bottom: 0; } dd { padding-top: 6px; } .actions button { flex: 1 1 auto; } }
